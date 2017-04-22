@@ -1,6 +1,6 @@
 /**
  * 
- * @author peterniemeyer and Toph
+ * @author Peter Niemeyer
  * @date 2017/04/20
  * @version 2.0
  * 
