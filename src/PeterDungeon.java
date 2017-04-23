@@ -32,20 +32,44 @@ public class PeterDungeon
 			String move = ""; // move or stay put		
 			String fight = ""; // fight of run		
 			String player = "alive";	// status in game	
-			String[] choice = {"What would you like to do?", "What is your next decision?", "What now?"};				
-			String[] turntext = {"You are still in this dark cave.", "Darkness surrounds you.", "The damp, dark, still air presses on you from all sides.", "The walls echo your pounding heart as you stop to listen."}; 	
-			String[] encounter = {"", "gnome", "dragon"}; 				
+			String pnts = "";
+			String[] pts = {"point", "points"};
+			String[] choice = {"What would you like to do?", "What is your next"
+					+ " decision?", "What now?"};				
+			String[] turntext = {"You are still in this dark cave.", "Darkness surrounds you.",
+					"The damp, dark, still air presses on you from all sides.",
+					"The walls echo your pounding heart as you stop to listen."}; 	
+			String[] encounter = {"", "gnome", "dragon"}; 	
+			String[] runaway = {"You successfully ran away and are one step closer to the light",
+					"Running away might have been a good choice.",
+					"You ran away. No one will know, so no worries."};
 
 // Intro text...	
-			System.out.println("D*U*N*G*E*O*N.");
+			System.out.println("DDD      U    U     N   N      GGGG     EEEEE      OOO      N   N"
+					+ "\nD  D     U    U     NN  N     G         E         O   O     NN  N"  
+					+ "\nD  D  *  U    U  *  N N N  *  G  GG  *  EEE    *  O   O  *  N N N"
+					+ "\nD  D     U    U     N  NN     G   G     E         O   O     N  NN"
+					+ "\nDDD       UUU       N   N      GGG      EEEEE      OOO      N   N*");
 			System.out.println();
 			System.out.println("!!!...");
-			System.out.println("You suddenly and alarmingly awake to find youself in a dark cave.");
-			System.out.println("A quick self-check lets you know that you are unharmed (HP " + playerHP + ") but confused.");
-			System.out.println("You have little with you but your wits and a few belongings... and a lurking fear that you are in danger.");
+			System.out.println("You suddenly and alarmingly awake to find youself in a dark cave."
+					+ "\nA quick self-check lets you know that you are unharmed "
+					+ "(HP " + playerHP + ") but confused."
+					+ "\nYou have little with you but your wits and a few belongings..."
+					+ "\nand a lurking fear that you are in danger.");
 			System.out.println("Keep moving and you might survive.");
 			System.out.println("");
-			System.out.println("...a few moments pass; you remember your name, but not much else... What is it?"); // get name
+			System.out.println("*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*"
+					+ "\n| Here are the rules:                      |"
+					+ "\n|        Get out with your life.           |"
+					+ "\n|        (Try to get some gold.)           |"
+					+ "\n|               Experiment.                |"
+					+ "\n|               Don't die!                 |"
+					+ "\n| (Keep trying: It IS possible to escape.) |"
+					+ "\n*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*");
+			System.out.println("");
+			System.out.println("...a few moments pass; you remember your name, but not much else..."
+					+ " What is it?"); // get name
 			name = kb.next();
 			System.out.println("Good luck " + name + ". You will need it.");
 		
@@ -57,18 +81,18 @@ public class PeterDungeon
 				{				
 					if (player.equals("alive")) 				
 					{					
-						move = "s";					
-						while (move.equalsIgnoreCase("s")) // standing still does not move counter nor does anything useful... it's just a choice
+						move = "s";	  // standing still does not move counter 
+						while (move.equalsIgnoreCase("s")) 
 						{						
 							int description = rnd.nextInt(turntext.length); // Random selection for "turntext"						
 							System.out.println("");						
 							if (i == turn-2)
 							{														
-								System.out.println("You see faint light up ahead."); // alternate text toward end of dungeon
+								System.out.println("You see faint light up ahead."); // alt text near end 
 							}						
 							else if (i == turn-1) 
 							{
-								System.out.println("The light up ahead is a touch brighter.");	// alternate text near end of game	
+								System.out.println("The light up ahead is a touch brighter.");	// alt text near end	
 							}						
 							else 
 							{							
@@ -95,7 +119,7 @@ public class PeterDungeon
 							{					
 								monsterHP = rnd.nextInt(5) + 8; // dragon encounter	HP assignment				
 							}											
-							int monsterGold = rnd.nextInt((monsterHP * 2) + 1);			// gold assigned per monster based upon HP		
+							int monsterGold = rnd.nextInt((monsterHP * 2) + 1);	// gold assigned per monster based upon HP		
 							System.out.println();					
 							System.out.println("You have encountered a " + encounter[monster]);											
 							int chce = rnd.nextInt(choice.length); // select a choice prompt from choice array
@@ -106,6 +130,12 @@ public class PeterDungeon
 									{
 								System.out.println("Please select the (letter) of your choice: ");
 								fight = kb.next();
+							}
+							if (fight.equalsIgnoreCase("r"))
+							{
+								int ra = rnd.nextInt(runaway.length);
+								System.out.println();
+								System.out.println(runaway[ra]);
 							}
 							while (fight.equalsIgnoreCase("f")) // fight loop... running away breaks loop
 							{																							
@@ -120,17 +150,36 @@ public class PeterDungeon
 									break;													
 								}							
 								else 
-								{								
-									System.out.println("You did " + playerAttack + " points of damage to the " + encounter[monster] + ".");								
-									System.out.println("The " + encounter[monster] + " did " + monsterDamage + " points of damage to you.");								
+								{	
+									if (playerAttack == 1) 
+									{
+										pnts = pts[0];
+									}
+									else 
+									{
+										pnts= pts[1];
+									}
+									System.out.println("You did " + playerAttack + " " + pnts + 
+											" of damage to the " + encounter[monster] + ".");
+									if (monsterDamage == 1) 
+									{
+										pnts = pts[0];
+									}
+									else 
+									{
+										pnts = pts[1];
+									}
+									System.out.println("The " + encounter[monster] + 
+											" did " + monsterDamage + " " + pnts + " of damage to you.");								
 									if (monsterHP <= 0) // monster death breaks loop
 									{								
-										System.out.println("You killed the " + encounter[monster] + "! (and got " + monsterGold + " gold.)");									
+										System.out.println("You killed the " + encounter[monster] + 
+												"! (and got " + monsterGold + " gold.)");									
 										playerGold = playerGold + monsterGold;									
 										break;								
 									}								
 									System.out.println("(You are both still alive.)");						
-								}							
+								}			
 								chce = rnd.nextInt(choice.length); // select a choice prompt from choice array
 								System.out.println(choice[chce]);						
 								System.out.println("fight (f) or run away (r)");							
@@ -139,9 +188,14 @@ public class PeterDungeon
 								{
 							System.out.println("Please select the (letter) of your choice: ");
 							fight = kb.next();
-						}
-								
-							}					
+								}
+								if (fight.equalsIgnoreCase("r"))
+								{
+									int ra = rnd.nextInt(runaway.length);
+									System.out.println();
+									System.out.println(runaway[ra]);
+								}
+							}	
 						}									
 					}				
 					else  
@@ -149,11 +203,6 @@ public class PeterDungeon
 						player = "dead";				
 						break;				
 					}	
-					/** 
-					 * not sure if i needed all these assignments of "dead" but I got the program to work nonetheless. 
-					 * room for improvement would be to KNOW before trial and error how to resolve the loops for "dead" and "out" without calling
-					 * a new class (we haven't learned that yet)
-					 */
 				}			
 				if (!player.equals("dead")) 
 				{		
@@ -168,22 +217,23 @@ public class PeterDungeon
 			{	
 				System.out.println();	
 				System.out.println("You breathe a deep sigh of relief as you step into the light");			
-				System.out.println("You've escaped the dungeon with "  + playerHP + " health and " + playerGold + " gold.");	
+				System.out.println("You've escaped the dungeon with "  + playerHP + 
+						" health and " + playerGold + " gold.");	
 			}
 			
 // CLOSE OUT and do it all again...						
 			System.out.println();		
-			System.out.println("Do you like to play again? (y or n);");		
+			System.out.println("Would you like to play again? (y or n);");		
 			rerun = kb.next();	
 			while( !(rerun.equalsIgnoreCase("y") || rerun.equalsIgnoreCase("n")))   // user input control loop
 			{
 		System.out.println("Please select the (letter) of your choice: ");
 		rerun = kb.next();
 	}
-			System.out.println();	
+			System.out.println();
+			kb.close();
 		}		
 		System.out.println();			
 		System.out.println("(Thank you for playing D*U*N*G*E*O*N.)");	
-		
 	}	
 }
